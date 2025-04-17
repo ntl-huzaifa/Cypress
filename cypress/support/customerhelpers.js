@@ -116,7 +116,9 @@ export function typeAddressAndEnter() {
       "F-6-2-Islamabad",
       "F-6-3-Islamabad",
       "F-6-4-Islamabad",
-      "F-6-Markaz-Islamabad"
+      "F-6-Markaz-Islamabad",
+      "F-5-1-Islamabad",
+      "F-5-2-Islamabad"
     ];
   
     const randomAddress = addresses[Math.floor(Math.random() * addresses.length)];

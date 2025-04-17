@@ -1,3 +1,6 @@
 node_modules
+<<<<<<< HEAD
 # Ignore .env file
 .env
+=======
+>>>>>>> c1b2c83fc893ed463c87e5c6966cd5459acc7c56
