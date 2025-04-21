@@ -10,8 +10,11 @@ import 'cypress-iframe';
 
 describe('Automating Customer IP Address', () => {
     it('Login,Assign IP and verifying Assigned IP', () => {
-        // Step 1: Login
-        login('huzaifa.nasir', 'Nayatel123%');
+        // Step 1: Login using credentials from env
+        login(
+            Cypress.env('LOGIN_USERNAME'),
+            Cypress.env('LOGIN_PASSWORD')
+        );
 
         ncrmModulesDropdown();
 

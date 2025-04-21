@@ -309,9 +309,9 @@ export function validatePDBCustomerAddress(userId, operator) {
         AND ca.modified_datetime >= NOW() - INTERVAL '5 minutes'
     `).then((rows) => {
       if (rows.length > 0) {
-        cy.log('✅ Success: Entry inserted in the last 5 mins in customer_address of PostgreSQL.');
+        cy.log('✅ Success: Entry inserted in customer_address of PostgreSQL.');
       } else {
-        cy.log('❌ Failure: No entry in the last 5 mins in customer_address of PostgreSQL.');
+        cy.log('❌ Failure: No entry in customer_address of PostgreSQL.');
       }
       expect(rows.length).to.be.greaterThan(0);
     });
@@ -333,9 +333,9 @@ export function validatePDBCustomerAddress(userId, operator) {
         AND cl.datetime >= NOW() - INTERVAL '5 minutes'
     `).then((rows) => {
       if (rows.length > 0) {
-        cy.log('✅ Success: Entry inserted in the last 5 mins in cust_landmark table of PostgreSQL.');
+        cy.log('✅ Success: Entry inserted in cust_landmark table of PostgreSQL.');
       } else {
-        cy.log('❌ Failure: No entry in the last 5 mins in cust_landmark table of PostgreSQL.');
+        cy.log('❌ Failure: No entry in cust_landmark table of PostgreSQL.');
       }
       expect(rows.length).to.be.greaterThan(0);
     });
@@ -362,9 +362,9 @@ export function validatePDBCustomerAddress(userId, operator) {
         AND t.category = 'CUSTOMER'
     `).then((rows) => {
       if (rows.length > 0) {
-        cy.log('✅ Success: Entry inserted in the last 5 mins in troubleticket table of PostgreSQL.');
+        cy.log('✅ Success: Entry inserted in troubleticket table of PostgreSQL.');
       } else {
-        cy.log('❌ Failure: No entry in the last 5 mins in troubleticket table of PostgreSQL.');
+        cy.log('❌ Failure: No entry in troubleticket table of PostgreSQL.');
       }
       expect(rows.length).to.be.greaterThan(0);
     });
@@ -389,9 +389,9 @@ export function validatePDBCustomerAddress(userId, operator) {
       HAVING COUNT(*) = 4 AND COUNT(DISTINCT t2.operationtype) = 3
     `).then((rows) => {
       if (rows.length > 0) {
-        cy.log('✅ Success: Entry inserted in the last 5 mins in troubleticketdetail table of PostgreSQL.');
+        cy.log('✅ Success: Entry inserted in troubleticketdetail table of PostgreSQL.');
       } else {
-        cy.log('❌ Failure: No entry in the last 5 mins in troubleticketdetail table of PostgreSQL.');
+        cy.log('❌ Failure: No entry in troubleticketdetail table of PostgreSQL.');
       }
       expect(rows.length).to.be.greaterThan(0);
     });
@@ -410,9 +410,9 @@ AND ca.ADDRESSTYPE IN ('BILLING_ADDRESS','INSTALLATION_ADDRESS')
   AND ca.datetime >= SYSDATE - (5 / 1440)
     `).then((rows) => {
       if (rows.length > 0) {
-        cy.log('✅ Success: Entry inserted in the last 5 mins in troubleticketdetail table of OracleDB.');
+        cy.log('✅ Success: Entry inserted in troubleticketdetail table of OracleDB.');
       } else {
-        cy.log('❌ Failure: No entry in the last 5 mins in troubleticketdetail table of OracleDB.');
+        cy.log('❌ Failure: No entry in troubleticketdetail table of OracleDB.');
       }
       expect(rows.length).to.be.greaterThan(0);
     });

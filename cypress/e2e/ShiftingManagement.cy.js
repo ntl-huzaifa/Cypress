@@ -14,8 +14,11 @@ describe('Automating Shifting Management', () => {
     const userId = 'testndoctor11';
     const operator = 'huzaifa.nasir';
 
-    // Step 1: Login
-    login('huzaifa.nasir', 'Nayatel123%');
+    // Step 1: Login using credentials from env
+    login(
+      Cypress.env('LOGIN_USERNAME'),
+      Cypress.env('LOGIN_PASSWORD')
+    );
 
     // Step 2: Select NCRM Modules Dropdown
     ncrmModulesDropdown();
