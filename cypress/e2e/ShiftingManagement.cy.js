@@ -2,6 +2,7 @@ import {
   login, ncrmModulesDropdown, enterStreetNumberOrName, enterShiftingCharges, enterLandmark, typeLocationAndEnter, selectBillingInfoRadio,
   navigateToShiftingManagement, searchUseridAndSubmit, enterShiftingComment, enterShiftingStreet, typeAddressAndEnter, submitShifting,
   validatePDBCustomerAddress, validatePDBCustLandmark, validatePDBTroubleTicket, validatePDBTroubleTicketDetail,validateODBTroubleTicketDetail,
+  validatePDBInstallationDetail, validatePDBInstallation,
 
 } from '../support/customerhelpers';
 
@@ -124,6 +125,8 @@ describe('Automating Shifting Management', () => {
     validatePDBCustLandmark(userId, operator);
     validatePDBTroubleTicket(userId, operator);
     validatePDBTroubleTicketDetail(userId, operator);
+    validatePDBInstallation(userId, operator);
+    validatePDBInstallationDetail(userId, operator);
 
     
     // Step 16: Validate DB Entries in OracleDB
