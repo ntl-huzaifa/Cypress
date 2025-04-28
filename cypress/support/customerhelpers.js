@@ -439,20 +439,123 @@ and i.operationtype = 'SHIFTING PREMISES' and operationvalue = 'shifting'
 }
 
 
-// Helper function to verify troubleticketdetail table entry in OracleDB
-export function validateODBTroubleTicketDetail(userId, operator) {
+// Helper function to verify CUSTOMERADDRESS table entry in OracleDB
+export function validateODBCustomerAddress(userId, operator) {
   return cy.task('runOracleQuery', `
-      SELECT ca.OPERATOR
-FROM CUSTOMERADDRESS ca
-JOIN MBLUSER b ON b.accountid = ca.accountid
-WHERE b.userid = '${userId}' AND ca.operator = '${operator}'
-AND ca.ADDRESSTYPE IN ('BILLING_ADDRESS','INSTALLATION_ADDRESS')
-  AND ca.datetime >= SYSDATE - (5 / 1440)
+      select ca.operator from CUSTOMERADDRESS ca 
+join mbluser mbl on
+mbl.accountid = ca.accountid 
+where mbl.userid = '${userId}'
+AND ca.operator = '${operator}' 
+AND ca.addresstype IN ('BILLING_ADDRESS','INSTALLATION_ADDRESS')
+AND ca.datetime >= SYSDATE - (5 / 1440)
+    `).then((rows) => {
+    if (rows.length > 0) {
+      cy.log('✅ Success: Entry inserted in CUSTOMERADDRESS table of OracleDB.');
+    } else {
+      cy.log('❌ Failure: No entry in CUSTOMERADDRESS table of OracleDB.');
+    }
+    expect(rows.length).to.be.greaterThan(0);
+  });
+}
+
+
+// Helper function to verify cust_landmark table entry in OracleDB
+export function validateODBCustLandmark(userId, operator) {
+  return cy.task('runOracleQuery', `
+      SELECT cl.operator FROM cust_landmark cl
+join mbluser mbl ON mbl.accountid = cl.accountid
+WHERE mbl.userid = '${userId}' 
+and cl.operator= '${operator}'
+AND cl.datetime >= SYSDATE - (5 / 1440)
+    `).then((rows) => {
+    if (rows.length > 0) {
+      cy.log('✅ Success: Entry inserted in cust_landmark table of OracleDB.');
+    } else {
+      cy.log('❌ Failure: No entry in cust_landmark table of OracleDB.');
+    }
+    expect(rows.length).to.be.greaterThan(0);
+  });
+}
+
+
+// Helper function to verify installation table entry in OracleDB
+export function validateODBInstallation(userId) {
+  return cy.task('runOracleQuery', `
+      select i.subdepartment FROM installation i
+where i.userid = '${userId}' and i.installationtype = 'SHIFTING PREMISES'
+and i.lastupdatedon >= SYSDATE - (5 / 1440)
+and i.teamassignedon >= SYSDATE - (5 / 1440)
+    `).then((rows) => {
+    if (rows.length > 0) {
+      cy.log('✅ Success: Entry inserted in installation table of OracleDB.');
+    } else {
+      cy.log('❌ Failure: No entry in installation table of OracleDB.');
+    }
+    expect(rows.length).to.be.greaterThan(0);
+  });
+}
+
+
+// Helper function to verify troubleticket table entry in OracleDB
+export function validateODBTroubleticket(userId, operator) {
+  return cy.task('runOracleQuery', `
+      select t.createdby from ntlcrm.troubleticket t 
+WHERE t.userid = '${userId}' AND t.createdby = '${operator}' 
+AND t.tt_creation_time >= SYSDATE - (5 / 1440) AND t.description = 'Hardware Removal Required' 
+AND t.faulttype = 'Hardware Removal' AND t.subfaulttype = 'Shifting case'
+    `).then((rows) => {
+    if (rows.length > 0) {
+      cy.log('✅ Success: Entry inserted in troubleticket table of OracleDB.');
+    } else {
+      cy.log('❌ Failure: No entry in troubleticket table of OracleDB.');
+    }
+    expect(rows.length).to.be.greaterThan(0);
+  });
+}
+
+
+// Helper function to verify troubleticketdetail table entry in OracleDB
+export function validateODBTroubleticketDetail(userId, operator) {
+  return cy.task('runOracleQuery', `
+      SELECT t2.ticketid
+      FROM ntlcrm.troubleticket t 
+      JOIN ntlcrm.troubleticketdetail t2 ON t2.TICKETID = t.ID 
+      WHERE t.userid = '${userId}' 
+        AND t2.datetime >= SYSDATE - (5 / 1440)
+        AND t2.status = 'open' 
+        AND t2.department = 'Enterprise Solutions'
+        AND t2.operationtype IN ('ISSUE TT', 'TT COMMENT', 'FORWARD TT')
+        AND t2.COMMENTS LIKE '%${operator}/Enterprise Solutions%'
+      GROUP BY t2.ticketid
+      HAVING COUNT(*) = 4 AND COUNT(DISTINCT t2.operationtype) = 3
     `).then((rows) => {
     if (rows.length > 0) {
       cy.log('✅ Success: Entry inserted in troubleticketdetail table of OracleDB.');
     } else {
       cy.log('❌ Failure: No entry in troubleticketdetail table of OracleDB.');
+    }
+    expect(rows.length).to.be.greaterThan(0);
+  });
+}
+
+
+// Helper function to verify EMAILSENDINGSCRIPTS table entry in OracleDB
+export function validateODBEmailsendingscripts(userId, operator) {
+  return cy.task('runOracleQuery', `
+      SELECT esc.subject
+FROM EMAILSENDINGSCRIPTS esc
+WHERE esc.operator = 'CRM_REVAMP'
+  AND esc.datetime >= SYSDATE - (5 / 1440) AND esc.subject = 'Shifting Request'
+  AND (
+        esc.msgbody LIKE '%${userId}%' 
+        OR esc.msgbody LIKE '%${operator}%'
+      )
+    `).then((rows) => {
+    if (rows.length > 0) {
+      cy.log('✅ Success: Entry inserted in EMAILSENDINGSCRIPTS table of OracleDB.');
+    } else {
+      cy.log('❌ Failure: No entry in EMAILSENDINGSCRIPTS table of OracleDB.');
     }
     expect(rows.length).to.be.greaterThan(0);
   });

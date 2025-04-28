@@ -1,8 +1,9 @@
 import {
   login, ncrmModulesDropdown, enterStreetNumberOrName, enterShiftingCharges, enterLandmark, typeLocationAndEnter, selectBillingInfoRadio,
   navigateToShiftingManagement, searchUseridAndSubmit, enterShiftingComment, enterShiftingStreet, typeAddressAndEnter, submitShifting,
-  validatePDBCustomerAddress, validatePDBCustLandmark, validatePDBTroubleTicket, validatePDBTroubleTicketDetail,validateODBTroubleTicketDetail,
-  validatePDBInstallationDetail, validatePDBInstallation,
+  validatePDBCustomerAddress, validatePDBCustLandmark, validatePDBTroubleTicket, validatePDBTroubleTicketDetail,
+  validatePDBInstallationDetail, validatePDBInstallation,validateODBCustomerAddress,validateODBCustLandmark,validateODBInstallation,
+  validateODBTroubleticket, validateODBTroubleticketDetail, validateODBEmailsendingscripts,
 
 } from '../support/customerhelpers';
 
@@ -65,10 +66,18 @@ describe('Automating Shifting Management', () => {
     validatePDBCustLandmark(userId, operator);
     validatePDBTroubleTicket(userId, operator);
     validatePDBTroubleTicketDetail(userId, operator);
+    validatePDBInstallation(userId, operator);
+    validatePDBInstallationDetail(userId, operator);
 
     
     // Step 16: Validate DB Entries in OracleDB
-    validateODBTroubleTicketDetail(userId, operator);
+    validateODBCustomerAddress(userId, operator);
+    validateODBCustLandmark(userId, operator);
+    validateODBInstallation(userId); 
+    //in installation detail table entry is not inserted yet
+    validateODBTroubleticket(userId, operator);
+    validateODBTroubleticketDetail(userId, operator);
+    validateODBEmailsendingscripts(userId, operator);
 
   });
 
@@ -130,7 +139,12 @@ describe('Automating Shifting Management', () => {
 
     
     // Step 16: Validate DB Entries in OracleDB
-    validateODBTroubleTicketDetail(userId, operator);
-
+    validateODBCustomerAddress(userId, operator);
+    validateODBCustLandmark(userId, operator);
+    validateODBInstallation(userId);
+    //in installation detail table entry is not inserted yet
+    validateODBTroubleticket(userId, operator);
+    validateODBTroubleticketDetail(userId, operator);
+    validateODBEmailsendingscripts(userId, operator);
   });
 });
