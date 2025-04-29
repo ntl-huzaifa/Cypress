@@ -3,7 +3,7 @@ import {
   navigateToShiftingManagement, searchUseridAndSubmit, enterShiftingComment, enterShiftingStreet, typeAddressAndEnter, submitShifting,
   validatePDBCustomerAddress, validatePDBCustLandmark, validatePDBTroubleTicket, validatePDBTroubleTicketDetail,
   validatePDBInstallationDetail, validatePDBInstallation,validateODBCustomerAddress,validateODBCustLandmark,validateODBInstallation,
-  validateODBTroubleticket, validateODBTroubleticketDetail, validateODBEmailsendingscripts,
+  validateODBTroubleticket, validateODBTroubleticketDetail, validateODBEmailsendingscripts,validateODBinstallationdetail
 
 } from '../support/customerhelpers';
 
@@ -74,7 +74,7 @@ describe('Automating Shifting Management', () => {
     validateODBCustomerAddress(userId, operator);
     validateODBCustLandmark(userId, operator);
     validateODBInstallation(userId); 
-    //in installation detail table entry is not inserted yet
+    validateODBinstallationdetail(userId, operator);
     validateODBTroubleticket(userId, operator);
     validateODBTroubleticketDetail(userId, operator);
     validateODBEmailsendingscripts(userId, operator);
@@ -142,7 +142,7 @@ describe('Automating Shifting Management', () => {
     validateODBCustomerAddress(userId, operator);
     validateODBCustLandmark(userId, operator);
     validateODBInstallation(userId);
-    //in installation detail table entry is not inserted yet
+    validateODBinstallationdetail(userId, operator);
     validateODBTroubleticket(userId, operator);
     validateODBTroubleticketDetail(userId, operator);
     validateODBEmailsendingscripts(userId, operator);

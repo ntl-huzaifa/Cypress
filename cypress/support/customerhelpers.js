@@ -497,6 +497,25 @@ and i.teamassignedon >= SYSDATE - (5 / 1440)
 }
 
 
+// Helper function to verify installationdetail table entry in OracleDB
+export function validateODBinstallationdetail(userId, operator) {
+  return cy.task('runOracleQuery', `
+      SELECT id.* FROM installationdetail id
+JOIN installation i ON i.id = id.installid
+WHERE id.operator = '${operator}' AND id.datetime >= SYSDATE - (5 / 1440)
+AND id.comments LIKE '%ShiftingCase%' AND id.operationtype = 'SHIFTING PREMISES'
+AND operationvalue = 'shifting' AND i.userid = '${userId}'
+    `).then((rows) => {
+    if (rows.length > 0) {
+      cy.log('✅ Success: Entry inserted in installationdetail table of OracleDB.');
+    } else {
+      cy.log('❌ Failure: No entry in installationdetail table of OracleDB.');
+    }
+    expect(rows.length).to.be.greaterThan(0);
+  });
+}
+
+
 // Helper function to verify troubleticket table entry in OracleDB
 export function validateODBTroubleticket(userId, operator) {
   return cy.task('runOracleQuery', `
