@@ -1,5 +1,5 @@
 import {
-    login, navigateToDashboard, navigateToCustomerDetail, selectUserID, searchAndSubmit,
+    login, navigateToCustomerDetail, selectUserID, searchAndSubmit,
     clickBillingSummary, clickChangeIPAddress, enterPartialIPAddress, clickFilter, ipDropdown, enterComment,
     submit, selectSecondOptionAndStoreValue, verifyIPAddress, assignDeletedIP, GETIPs, dltIpDropdown, assignIP, ncrmModulesDropdown,
     verifyIPNotInDropdown
