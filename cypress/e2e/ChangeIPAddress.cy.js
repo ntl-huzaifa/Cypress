@@ -1,8 +1,7 @@
 import {
-    login, navigateToCustomerDetail, selectUserID, searchAndSubmit,
-    clickBillingSummary, clickChangeIPAddress, enterPartialIPAddress, clickFilter, ipDropdown, enterComment,
-    submit, selectSecondOptionAndStoreValue, verifyIPAddress, assignDeletedIP, GETIPs, dltIpDropdown, assignIP, ncrmModulesDropdown,
-    verifyIPNotInDropdown
+    login, navigateToCustomerDetail, selectUserID, searchAndSubmit,clickBillingSummary, clickChangeIPAddress, 
+    enterPartialIPAddress, clickFilter, ipDropdown, enterComment, submit, selectSecondOptionAndStoreValue, 
+    verifyIPAddress, assignDeletedIP, GETIPs, dltIpDropdown, assignIP, ncrmModulesDropdown, verifyIPNotInDropdown
 } from '../support/customerhelpers';
 
 import 'cypress-iframe';
@@ -35,7 +34,7 @@ describe('Automating Customer IP Address', () => {
         clickChangeIPAddress();
 
         // Step 7: Enter Partial IP Address and Submit
-        enterPartialIPAddress('58.65');
+        enterPartialIPAddress();
 
         // Step 8: Click on Filter Button
         clickFilter();
@@ -63,7 +62,10 @@ describe('Automating Customer IP Address', () => {
 
     it('Login,Assigned Deleted IPs and Verified', () => {
         // Step 1: Login
-        login('huzaifa.nasir', 'Nayatel123%');
+        login(
+            Cypress.env('LOGIN_USERNAME'),
+            Cypress.env('LOGIN_PASSWORD')
+        );
 
         ncrmModulesDropdown();
 

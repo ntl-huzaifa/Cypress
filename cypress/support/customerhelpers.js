@@ -77,11 +77,20 @@ export function clickChangeIPAddress() {
 
 
 // Helper function to input partial IP address
-export function enterPartialIPAddress(ipAddress) {
+export function enterPartialIPAddress() {
+  const addresses = [
+    "58.65",
+    "115.186",
+    "124.109",
+    "203.82"
+  ];
+
+  const randomAddress = addresses[Math.floor(Math.random() * addresses.length)];
+
   cy.get('input[placeholder="Enter Provide Partial IP Address"]', { timeout: 20000 })
     .should('be.visible')
-    .click();
-  cy.get('input[placeholder="Enter Provide Partial IP Address"]').type(ipAddress);
+    .clear()
+    .type(`${randomAddress}{enter}`);
 }
 
 
