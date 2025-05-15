@@ -11,9 +11,10 @@
 //
 // -- This is a parent command --
 Cypress.Commands.add('login', (username, password) => {
-    cy.get('#username_txt').type(username);
-    cy.get('#passwordDiv > .input-icon > .form-control').type(password); // Updated password selector
-    cy.get('button[type="submit"]').click(); // Submit login form
+    cy.get('#username_txt').should('be.visible').type(username);
+    cy.get('#passwordDiv > .input-icon > .form-control').should('be.visible').type(password);
+    cy.get('button[type="submit"]').should('be.visible').click();
+    cy.url().should('not.include', 'login'); // Verify login was successful
 })
 //
 //
