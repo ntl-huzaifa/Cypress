@@ -108,33 +108,91 @@ export function ipDropdown() {
 }
 
 
-// Helper function to type a random address and press enter
+// Helper function to compare the value of #txtOldSector with PostgreSQL query result
+export function compareOldSectorWithQuery(userId) {
+  // Get the value from the disabled field
+  cy.get('#txtOldSector')
+    .invoke('val') // Get the value of the field
+    .then((fieldValue) => {
+      // Run the PostgreSQL query
+      const query = `
+        SELECT a.area_name AS "AREA_NAME"
+        FROM customer c
+        INNER JOIN customer_address ca ON ca.accountid = c.accountid
+        INNER JOIN subarea s ON s.subarea_id = ca.subarea_id
+        INNER JOIN area a ON a.area_id = s.area_id
+        INNER JOIN city ci ON ci.city_id = a.city_id
+        WHERE c.userid = '${userId}' AND c.row_status = 'active' 
+        AND ca.row_status = 'active' AND ca.address_type = 'INSTALLATION_ADDRESS'
+      `;
+
+      cy.task('runPostgresQuery', query).then((rows) => {
+        if (rows.length === 0) {
+          throw new Error('❌ No data found in PostgreSQL for the given query.');
+        }
+
+        const queryResult = rows[0].AREA_NAME; // Get the AREA_NAME from the query result
+
+        // Compare the field value with the query result
+        expect(fieldValue.trim()).to.equal(queryResult.trim());
+        cy.log('✅ Field value matches the query result.');
+      });
+    });
+}
+
+
+// Helper function to compare the value of #txtOldSubSector with PostgreSQL query result
+export function compareOldSubSectorWithQuery(userId) {
+  // Get the value from the disabled field
+  cy.get('#txtOldSubSector')
+    .invoke('val') // Get the value of the field
+    .then((fieldValue) => {
+      // Run the PostgreSQL query
+      const query = `
+        SELECT s.subarea_name AS "SUBAREA_NAME"
+        FROM customer c
+        INNER JOIN customer_address ca ON ca.accountid = c.accountid
+        INNER JOIN subarea s ON s.subarea_id = ca.subarea_id
+        INNER JOIN area a ON a.area_id = s.area_id
+        INNER JOIN city ci ON ci.city_id = a.city_id
+        WHERE c.userid = '${userId}' AND c.row_status = 'active' 
+        AND ca.row_status = 'active' AND ca.address_type = 'INSTALLATION_ADDRESS'
+      `;
+
+      cy.task('runPostgresQuery', query).then((rows) => {
+        if (rows.length === 0) {
+          throw new Error('❌ No data found in PostgreSQL for the given query.');
+        }
+
+        const queryResult = rows[0].SUBAREA_NAME; // Get the SUBAREA_NAME from the query result
+
+        // Compare the field value with the query result
+        expect(fieldValue.trim()).to.equal(queryResult.trim());
+        cy.log('✅ Field value matches the query result.');
+      });
+    });
+}
+
+
+// Helper function to fetch a random address from PostgreSQL and type it
 export function typeAddressAndEnter() {
-  const addresses = [
-    "F-7-1-Islamabad",
-    "F-7-2-Islamabad",
-    "F-7-3-Islamabad",
-    "F-7-4-Islamabad",
-    "F-7-Markaz-Islamabad",
-    "F-8-1-Islamabad",
-    "F-8-2-Islamabad",
-    "F-8-3-Islamabad",
-    "F-8-4-Islamabad",
-    "F-8-Markaz-Islamabad",
-    "F-6-1-Islamabad",
-    "F-6-2-Islamabad",
-    "F-6-3-Islamabad",
-    "F-6-4-Islamabad",
-    "F-6-Markaz-Islamabad",
-    "F-5-1-Islamabad",
-    "F-5-2-Islamabad"
-  ];
+  const query = `
+    SELECT (p.area || '-' || p.subarea || '-' || p.city) AS address
+from profitcenters p where row_status = 'active' and record_status = 'active'
+and status = 'enabled'
+  `;
 
-  const randomAddress = addresses[Math.floor(Math.random() * addresses.length)];
+  cy.task('runPostgresQuery', query).then((rows) => {
+    if (rows.length === 0) {
+      throw new Error('❌ No address data found in PostgreSQL.');
+    }
 
-  cy.get(':nth-child(4) > :nth-child(1) > .css-b62m3t-container > .css-1sjib0a-control > .css-hlgwow > .css-cz9fds')
-    .should('be.visible')
-    .type(`${randomAddress}{enter}`);
+    const randomAddress = rows[Math.floor(Math.random() * rows.length)].address;
+
+    cy.get(':nth-child(4) > :nth-child(1) > .css-b62m3t-container > .css-1sjib0a-control > .css-hlgwow > .css-cz9fds')
+      .should('be.visible')
+      .type(`${randomAddress}{enter}`);
+  });
 }
 
 
@@ -190,7 +248,7 @@ export function enterLandmark(landmark) {
 
 // Helper function to click on Billing Info Radio button
 export function selectBillingInfoRadio() {
-  cy.get('#BILLING_INFO_CHECK').click({ force: true });
+  cy.get('#txtBillingInfoCheck').click({ force: true });
 }
 
 
