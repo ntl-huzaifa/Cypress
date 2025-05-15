@@ -257,6 +257,16 @@ export function submitShifting() {
   cy.get('.btn-primary').click();
 }
 
+// Helper function to click on Shifting Cancel button
+export function cancelShifting() {
+  cy.get('#btnCAncel').click();
+}
+
+// Helper function to see disable Full Address field
+export function fullAddress() {
+  cy.get('#txtFullAddress').click();
+}
+
 // Helper function to click on the second option in a dropdown and store its value
 export function selectSecondOptionAndStoreValue(optionSelector) {
   let selectedValue = ''; // Declare a variable to store the selected value
@@ -645,4 +655,29 @@ WHERE esc.operator = 'CRM_REVAMP'
     }
     expect(rows.length).to.be.greaterThan(0);
   });
+}
+
+
+// Helper function to verify the form is reset after canceling
+export function verifyFormReset() {
+  cy.get('.row.mt-4 > .form-group > .form-control')
+    .should('have.value', '') // Verify the comment field is reset
+    .and('have.attr', 'placeholder', 'Enter Comments'); // Verify the "Enter Comments" placeholder is shown
+  cy.get(':nth-child(4) > :nth-child(1) > .css-b62m3t-container > .css-1sjib0a-control > .css-hlgwow > .css-cz9fds')
+    .should('have.value', '')
+  cy.get(':nth-child(2) > .css-b62m3t-container > .css-1sjib0a-control > .css-hlgwow > .css-cz9fds')
+    .should('have.value', '')
+  cy.get(':nth-child(5) > :nth-child(1) > .form-control')
+    .should('have.value', '')
+    .and('have.attr', 'placeholder', 'Enter Street Number'); // Verify the street field is reset with "Enter Street Number" placeholder
+  cy.get(':nth-child(5) > :nth-child(2) > .form-control')
+    .should('have.value', '')
+    .and('have.attr', 'placeholder', 'Enter Number/Name'); // Verify the street number field is reset with "Enter Number/Name" placeholder
+  cy.get('div.row:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2)') // Verify the shifting charges field is reset
+    .should('have.value', '')
+  cy.get(':nth-child(7) > :nth-child(2) > .form-control')
+    .should('have.value', '')
+    .and('have.attr', 'placeholder', 'Enter Land Mark'); // Verify the landmark field is reset with "Enter Land Mark" placeholder
+  cy.get('#txtFullAddress')
+    .should('have.attr', 'placeholder', 'Enter Address'); // Verify the "Enter Address" placeholder is shown
 }
