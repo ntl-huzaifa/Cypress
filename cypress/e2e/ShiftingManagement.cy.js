@@ -3,8 +3,8 @@ import {
   navigateToShiftingManagement, searchUseridAndSubmit, enterShiftingComment, enterShiftingStreet, typeAddressAndEnter, submitShifting,
   validatePDBCustomerAddress, validatePDBCustLandmark, validatePDBTroubleTicket, validatePDBTroubleTicketDetail,
   validatePDBInstallationDetail, validatePDBInstallation, validateODBCustomerAddress, validateODBCustLandmark, validateODBInstallation,
-  validateODBTroubleticket, validateODBTroubleticketDetail, validateODBEmailsendingscripts, validateODBinstallationdetail, 
-  compareOldSectorWithQuery, compareOldSubSectorWithQuery,verifyFormReset, cancelShifting, fullAddress
+  validateODBTroubleticket, validateODBTroubleticketDetail, validateODBEmailsendingscripts, validateODBinstallationdetail,
+  compareOldSectorWithQuery, compareOldSubSectorWithQuery, verifyFormReset, cancelShifting, fullAddress, customeIdretain
 
 } from '../support/customerhelpers';
 
@@ -191,7 +191,7 @@ describe('Automating Shifting Management', () => {
 
     // Step 8: Compare the old sub-sector with the query result
     compareOldSubSectorWithQuery(userId);
-      
+
     // Step 9: Enter Address and submit
     typeAddressAndEnter();
 
@@ -200,7 +200,7 @@ describe('Automating Shifting Management', () => {
 
     // Step 11: Enter a Shifting Street with 51 characters to test the limit
     enterShiftingStreet('This is a test paragraph designed specifically to r');
-    
+
     // Step 12: Verify the error message for exceeding the character limit in the street field
     cy.contains('Maximum 50 Characters allowed!', { timeout: 150000 })
       .should('be.visible');
@@ -223,49 +223,51 @@ describe('Automating Shifting Management', () => {
       .should('be.visible');
   });
 
-
-    it('Verify that on clicking cancel button the page is going to its initial stage', () => {
+  it('Verify that on clicking cancel button the page is going to its initial stage except Customer ID', () => {
     // Step 1: Login using credentials from environment variables
     login(
       Cypress.env('LOGIN_USERNAME'),
       Cypress.env('LOGIN_PASSWORD')
     );
-  
+
     // Step 2: Open NCRM Modules Dropdown
     ncrmModulesDropdown();
-  
+
     // Step 3: Navigate to Shifting Management
     navigateToShiftingManagement();
-  
+
     // Step 4: Search for the User ID and submit the form
     searchUseridAndSubmit(userId);
-  
+
     // Step 5: Enter Shifting Comment
     enterShiftingComment('Test comment for cancel functionality');
-  
+
     // Step 6: Enter Address and submit
     typeAddressAndEnter();
-  
+
     // Step 7: Enter Location and submit
     typeLocationAndEnter();
-  
+
     // Step 8: Enter Shifting Street
     enterShiftingStreet('Test Street');
-  
+
     // Step 9: Enter Street Number or Name
     enterStreetNumberOrName('123');
-  
+
     // Step 10: Enter Shifting Charges
     enterShiftingCharges();
-  
+
     // Step 11: Enter Optional Landmark
     enterLandmark('Test Landmark');
-  
+
     // Step 12: Click the Cancel button
     cancelShifting();
-  
+
     // Step 13: Verify the page is reset to its initial state
     verifyFormReset();
+
+    // Step 14: Verify that the Customer ID field retains its value
+    customeIdretain(userId);
   });
 
 });

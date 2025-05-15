@@ -368,9 +368,9 @@ export function verifyIPNotInDropdown(optionSelector, excludedIP) {
 
 // Helper function to search for a user and submit
 export function searchUseridAndSubmit(userSearch) {
-  cy.get('.form-control').click();
-  cy.get('.form-control').type(userSearch);
-  cy.get('.btn').click();
+  cy.get('#txtCustomerId').click();
+  cy.get('#txtCustomerId').type(userSearch);
+  cy.get('#btnSubmit').click();
 }
 
 
@@ -680,4 +680,11 @@ export function verifyFormReset() {
     .and('have.attr', 'placeholder', 'Enter Land Mark'); // Verify the landmark field is reset with "Enter Land Mark" placeholder
   cy.get('#txtFullAddress')
     .should('have.attr', 'placeholder', 'Enter Address'); // Verify the "Enter Address" placeholder is shown
+}
+
+
+// Helper function to verify the userid isn't reset after canceling
+export function customeIdretain(userSearch){
+  cy.get('#txtCustomerId') // Verify the User ID field isn't reset
+  .should('have.value', userSearch )
 }
