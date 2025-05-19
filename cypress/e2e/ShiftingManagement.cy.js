@@ -40,7 +40,7 @@ describe('Automating Shifting Management', () => {
     customerHelpers.enterShiftingStreet('22');
 
     // Step 11: Enter Street Number or Name
-    customerHelpers.enterStreetNumberOrName('B-2');
+    customerHelpers.enterStreetNumberOrName('2');
 
     // Step 12: Enter Shifting Charges
     customerHelpers.enterShiftingCharges();
@@ -114,7 +114,7 @@ describe('Automating Shifting Management', () => {
     customerHelpers.enterShiftingStreet('22');
 
     // Step 11: Enter Street Number or Name
-    customerHelpers.enterStreetNumberOrName('B-2');
+    customerHelpers.enterStreetNumberOrName('2');
 
     // Step 12: Enter Shifting Charges
     customerHelpers.enterShiftingCharges();
